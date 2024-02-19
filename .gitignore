@@ -7,3 +7,4 @@ riderModule.iml
 CleanCodeTemplate/pack
 CleanCodeTemplate/.env
 *.db
+.vs

@@ -22,7 +22,8 @@ SqlMapper.AddTypeHandler(typeof(Guid), new GuidTypeHandler());
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFastEndpoints()
-    .AddJWTBearerAuth(env["JWT_KEY"]) //add this
+    .AddResponseCaching()
+    .AddJWTBearerAuth(env["JWT_KEY"])
     .AddAuthorization()
     .SwaggerDocument();
 
@@ -74,6 +75,7 @@ using (var scope = app.Services.CreateScope())
 app.UseCors("CORS");
 app.UseAuthentication() //add this
     .UseAuthorization() //add this
+    .UseResponseCaching()
     .UseFastEndpoints()
     .UseSwaggerGen();
 

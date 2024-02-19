@@ -3,6 +3,8 @@ using CleanCodeTemplate.Business.Ports.Authorizations.Input;
 using CleanCodeTemplate.Business.Ports.Catalogs.Input;
 using CleanCodeTemplate.Business.Ports.Database.Input;
 using CleanCodeTemplate.Business.Ports.Locks.Input;
+using CleanCodeTemplate.Business.Ports.Options.Input;
+using CleanCodeTemplate.Business.Ports.Options.Output;
 using CleanCodeTemplate.Business.Ports.Roles.Input;
 using CleanCodeTemplate.Business.Ports.Users.Input;
 using CleanCodeTemplate.Business.Services.Account;
@@ -10,6 +12,7 @@ using CleanCodeTemplate.Business.Services.Authorizations;
 using CleanCodeTemplate.Business.Services.Catalogs;
 using CleanCodeTemplate.Business.Services.Database;
 using CleanCodeTemplate.Business.Services.Locks;
+using CleanCodeTemplate.Business.Services.Options;
 using CleanCodeTemplate.Business.Services.Roles;
 using CleanCodeTemplate.Business.Services.Users;
 
@@ -72,7 +75,7 @@ public static class DependencyInjector
 
         #endregion
         
-        #region Users
+        #region Locks
 
         collection.AddTransient<ICreateBlockedInput, CreateBlockedService>();
         collection.AddTransient<IUpdateBlockedInput, UpdateBlockedService>();
@@ -81,6 +84,12 @@ public static class DependencyInjector
 
         #endregion
 
+        #region Options
+
+        collection.AddTransient<IGetOptionInput, GetOptionService>();      
+
+        #endregion
+        
         return collection;
     }
 }

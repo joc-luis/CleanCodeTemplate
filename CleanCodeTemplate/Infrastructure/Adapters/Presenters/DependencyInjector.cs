@@ -2,12 +2,14 @@
 using CleanCodeTemplate.Business.Ports.Catalogs.Output;
 using CleanCodeTemplate.Business.Ports.Database.Output;
 using CleanCodeTemplate.Business.Ports.Locks.Output;
+using CleanCodeTemplate.Business.Ports.Options.Output;
 using CleanCodeTemplate.Business.Ports.Roles.Output;
 using CleanCodeTemplate.Business.Ports.Users.Output;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Account;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Catalogs;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Database;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Locks;
+using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Options;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Roles;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters.Users;
 
@@ -52,7 +54,6 @@ public static class DependencyInjector
 
         #endregion
         
-        
         #region Users
 
         collection.AddScoped<ICreateUserOutput, CreateUserPresenter>();
@@ -62,7 +63,7 @@ public static class DependencyInjector
 
         #endregion
         
-        #region Users
+        #region Locks
 
         collection.AddScoped<ICreateBlockedOutput, CreateBlockedPresenter>();
         collection.AddScoped<IUpdateBlockedOutput, UpdateBlockedPresenter>();
@@ -70,7 +71,13 @@ public static class DependencyInjector
         collection.AddScoped<IDestroyBlockedOutput, DestroyBlockedPresenter>();
 
         #endregion
+        
+        #region Collection
 
+        collection.AddScoped<IGetOptionOutput, GetOptionPresenter>();
+
+        #endregion
+        
         return collection;
     }
 }

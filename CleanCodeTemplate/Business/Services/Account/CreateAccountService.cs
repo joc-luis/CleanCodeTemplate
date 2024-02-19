@@ -37,7 +37,7 @@ public class CreateAccountService : ICreateAccountInput
 
     public async Task HandleAsync(CreateAccountRequest request, CancellationToken ct)
     {
-        Role role = await _roleRepository.First<Role>(new Query().Where("Name", "Default"), ct);
+        Role role = await _roleRepository.FirstAsync<Role>(new Query().Where("Name", "Default"), ct);
       
         var query = new Query()
             .WhereRaw("(Users.Nick = ? or Users.Email = ?)", request.Nick, request.Email);

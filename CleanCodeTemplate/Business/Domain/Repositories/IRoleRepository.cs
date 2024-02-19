@@ -13,8 +13,8 @@ public interface IRoleRepository
     Task<IEnumerable<TEntity>> GetAsync<TEntity>(Query query, CancellationToken ct);
     Task<PaginationResult<TEntity>> GetPaginationAsync<TEntity>(int page, int take, CancellationToken ct);
     Task<PaginationResult<TEntity>> GetPaginationAsync<TEntity>(Query query, int page, int take, CancellationToken ct);
-    Task<TEntity> First<TEntity>(Guid id, CancellationToken ct);
-    Task<TEntity> First<TEntity>(Query query, CancellationToken ct);
+    Task<TEntity> FirstAsync<TEntity>(Guid id, CancellationToken ct);
+    Task<TEntity> FirstAsync<TEntity>(Query query, CancellationToken ct);
     Task<TEntity?> FirstOrDefault<TEntity>(Guid id, CancellationToken ct);
     Task<TEntity?> FirstOrDefault<TEntity>(Query query, CancellationToken ct);
 }

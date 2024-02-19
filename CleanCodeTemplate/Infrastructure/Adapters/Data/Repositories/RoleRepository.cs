@@ -74,7 +74,7 @@ public class RoleRepository : IRoleRepository
             .PaginateAsync<TEntity>(page, take, cancellationToken: ct);
     }
 
-    public Task<TEntity> First<TEntity>(Guid id, CancellationToken ct)
+    public Task<TEntity> FirstAsync<TEntity>(Guid id, CancellationToken ct)
     {
         return _kataContext.QueryFactory
             .Query(Table)
@@ -82,7 +82,7 @@ public class RoleRepository : IRoleRepository
             .FirstAsync<TEntity>(cancellationToken: ct);
     }
 
-    public Task<TEntity> First<TEntity>(Query query, CancellationToken ct)
+    public Task<TEntity> FirstAsync<TEntity>(Query query, CancellationToken ct)
     {
         return _kataContext.QueryFactory
             .FromQuery(query)

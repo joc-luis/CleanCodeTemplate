@@ -81,7 +81,7 @@ public class LoginAccountService : ILoginAccountInput
         }
         else
         {
-            Role role = await _roleRepository.First<Role>(user.RoleId, ct);
+            Role role = await _roleRepository.FirstAsync<Role>(user.RoleId, ct);
 
             IEnumerable<PermissionDto> permissions = await _permissionRepository
                 .GetAsync<PermissionDto>(new Query().WhereIn("Id", role.Permissions), ct);

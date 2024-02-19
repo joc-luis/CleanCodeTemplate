@@ -64,7 +64,9 @@ public class SqlKataContext
         }
         
         QueryFactory.Logger = compiled => {
+            Console.WriteLine();
             Console.WriteLine(compiled.ToString());
+            Console.WriteLine();
         };
     }
 }

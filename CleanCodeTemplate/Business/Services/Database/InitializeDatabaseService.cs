@@ -121,7 +121,7 @@ public class InitializeDatabaseService : IInitializeDatabaseInput
     private async Task CreateDefaultUser()
     {
         byte[] image = await File.ReadAllBytesAsync(Path.Combine(DirectoryConstants.Img, "account.png"));
-        Role role = await _roleRepository.First<Role>(new Query().Where("Name", "Root"), default);
+        Role role = await _roleRepository.FirstAsync<Role>(new Query().Where("Name", "Root"), default);
         User user = new User(role.Id, image, "4dm1n", await _cryptographyTool.HashAsync("1234567890"),
             "root@example.com");
         await _userRepository.CreateAsync(user, default);

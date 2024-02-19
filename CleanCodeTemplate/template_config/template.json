@@ -7,7 +7,7 @@
   },
   "identity": "endpoint.clean.code.template",
   "name": "Endpoint Clean Code",
-  "shortName": "endpoint.clean.code",
+  "shortName": "clean.code.template",
   "sourceName": "CleanCodeTemplate",
   "sources": [
     {
