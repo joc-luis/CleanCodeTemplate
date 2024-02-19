@@ -13,10 +13,10 @@ public class HaveAuthorizationService : IHaveAuthorizationInput
 {
     private readonly IPermissionRepository _permissionRepository;
     private readonly IWebTokenTool _webTokenTool;
-    private readonly IBlockedCachingTool _cachingProvider;
+    private readonly IMemoryCachingTool _cachingProvider;
 
     public HaveAuthorizationService(IPermissionRepository permissionRepository, IWebTokenTool webTokenTool,
-        IBlockedCachingTool cachingProvider)
+        IMemoryCachingTool cachingProvider)
     {
         _permissionRepository = permissionRepository;
         _webTokenTool = webTokenTool;
@@ -26,6 +26,7 @@ public class HaveAuthorizationService : IHaveAuthorizationInput
     public async Task HandleAsync(AuthorizationDto auth, CancellationToken ct)
     {
         IEnumerable<PermissionDto> permissions;
+
         if (await _cachingProvider.ExistsAsync("Permissions", ct))
         {
             permissions = await _cachingProvider.GetAsync<IEnumerable<PermissionDto>>("Permissions", ct);
@@ -36,12 +37,17 @@ public class HaveAuthorizationService : IHaveAuthorizationInput
             await _cachingProvider.SetAsync("Permissions", permissions, TimeSpan.FromDays(30), ct);
         }
 
-        if (permissions.Any(p => auth.Method == p.Method && new Regex(p.Url).IsMatch(auth.Url)))
+        foreach (var permission in permissions)
         {
-            if (_webTokenTool.SessionAccount.Permissions.All(p =>
-                    auth.Method != p.Method && !new Regex(p.Url).IsMatch(auth.Url)))
+            var exists = permission.Method == auth.Method && new Regex(permission.Url).IsMatch(auth.Url);
+           
+            if (exists)
             {
-                throw new ForbiddenException();
+                if (!_webTokenTool.SessionAccount.Permissions.Any(p =>
+                        p.Url == permission.Url && p.Method == permission.Method))
+                {
+                    throw new ForbiddenException();
+                }
             }
         }
     }

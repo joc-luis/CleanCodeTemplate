@@ -1,6 +1,6 @@
 ﻿namespace CleanCodeTemplate.Business.Dto.Permissions;
 
-public struct PermissionDto
+public class PermissionDto
 {
     public string Url { get; set; }
     public string Method { get; set; }

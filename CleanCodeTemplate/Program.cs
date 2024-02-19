@@ -7,12 +7,33 @@ using CleanCodeTemplate.Infrastructure.Adapters.Modules;
 using CleanCodeTemplate.Infrastructure.Adapters.Presenters;
 using CleanCodeTemplate.Infrastructure.Middlewares;
 using Dapper;
+using dotenv.net;
 using EasyCaching.SQLite;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
+using Serilog;
 
-IDictionary<string, string> env = dotenv.net.DotEnv.Read();
+IDictionary<string, string> env;
+
+if (File.Exists(Path.Combine(Environment.CurrentDirectory, ".env")))
+{
+    env = (Dictionary<string, string>)DotEnv.Read();
+}
+else
+{
+    env = new Dictionary<string, string>();
+    
+    foreach (KeyValuePair<string, string> variable in Environment.GetEnvironmentVariables())
+    {
+        env.Add(variable.Key, variable.Value);
+    }
+}
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("log-.log", rollingInterval: RollingInterval.Day)
+    .WriteTo.Console()
+    .CreateLogger();
 
 SqlMapper.AddTypeHandler(typeof(IEnumerable<long>), new JsonListTypeHandler<long>());
 SqlMapper.AddTypeHandler(typeof(IEnumerable<string>), new JsonListTypeHandler<string>());

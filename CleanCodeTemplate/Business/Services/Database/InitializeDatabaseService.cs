@@ -58,34 +58,34 @@ public class InitializeDatabaseService : IInitializeDatabaseInput
 
         Option settingsRoles = new Option("Roles", "roles", "lock", settings.Id);
         await _optionRepository.CreateAsync(settingsRoles, default);
-        await _permissionRepository.CreateAsync(new Permission(settingsRoles.Id, "Create role", "role", "POST"),
+        await _permissionRepository.CreateAsync(new Permission(settingsRoles.Id, "Create role", "/role", "POST"),
             default);
-        await _permissionRepository.CreateAsync(new Permission(settingsRoles.Id, "Update role", "role", "PUT"),
+        await _permissionRepository.CreateAsync(new Permission(settingsRoles.Id, "Update role", "/role", "PUT"),
             default);
-        await _permissionRepository.CreateAsync(new Permission(settingsRoles.Id, "Get roles", "role", "GET"), default);
+        await _permissionRepository.CreateAsync(new Permission(settingsRoles.Id, "Get roles", "/role", "GET"), default);
         await _permissionRepository.CreateAsync(
-            new Permission(settingsRoles.Id, "Delete role", $"^/role/{PatternConstants.Guid}$", "DELETE"), default);
+            new Permission(settingsRoles.Id, "Delete role", $"/role/{PatternConstants.Guid}", "DELETE"), default);
 
         Option settingsUsers = new Option("Users", "users", "people", settings.Id);
         await _optionRepository.CreateAsync(settingsUsers, default);
-        await _permissionRepository.CreateAsync(new Permission(settingsUsers.Id, "Create user", "user", "POST"),
+        await _permissionRepository.CreateAsync(new Permission(settingsUsers.Id, "Create user", "/user", "POST"),
             default);
-        await _permissionRepository.CreateAsync(new Permission(settingsUsers.Id, "Update user", "user", "PUT"),
+        await _permissionRepository.CreateAsync(new Permission(settingsUsers.Id, "Update user", "/user", "PUT"),
             default);
-        await _permissionRepository.CreateAsync(new Permission(settingsUsers.Id, "Get users", "user", "GET"), default);
+        await _permissionRepository.CreateAsync(new Permission(settingsUsers.Id, "Get users", "/user/search", "POST"), default);
         await _permissionRepository.CreateAsync(
-            new Permission(settingsUsers.Id, "Delete user", $"^/user/{PatternConstants.Guid}$", "DELETE"), default);
+            new Permission(settingsUsers.Id, "Delete user", $"/user/{PatternConstants.Guid}", "DELETE"), default);
 
         Option blockedSettings = new Option("Blocked users", "blocked/users", "locked", settings.Id);
         await _optionRepository.CreateAsync(blockedSettings, default);
-        await _permissionRepository.CreateAsync(new Permission(blockedSettings.Id, "Block user", "blocked", "POST"),
+        await _permissionRepository.CreateAsync(new Permission(blockedSettings.Id, "Block user", "/blocked", "POST"),
             default);
         await _permissionRepository.CreateAsync(
-            new Permission(blockedSettings.Id, "Update user lock", "blocked", "PUT"), default);
+            new Permission(blockedSettings.Id, "Update user lock", "/blocked", "PUT"), default);
         await _permissionRepository.CreateAsync(
-            new Permission(blockedSettings.Id, "Get blocked users", "blocked", "GET"), default);
+            new Permission(blockedSettings.Id, "Get blocked users", "/blocked/search", "POST"), default);
         await _permissionRepository.CreateAsync(
-            new Permission(blockedSettings.Id, "Remove user lock", $"^/blocked/{PatternConstants.Guid}$", "DELETE"),
+            new Permission(blockedSettings.Id, "Remove user lock", $"/blocked/{PatternConstants.Guid}", "DELETE"),
             default);
 
         #endregion
@@ -93,12 +93,12 @@ public class InitializeDatabaseService : IInitializeDatabaseInput
         #region Catalogs
 
         await _permissionRepository.CreateAsync(new Permission("Catalogue of permissions",
-                "catalogue/permissions",
+                "/catalogue/permissions",
                 "GET"),
             default);
         
         await _permissionRepository.CreateAsync(new Permission("Catalogue of roles",
-                "catalogue/roles",
+                "/catalogue/roles",
                 "GET"),
             default);
         
