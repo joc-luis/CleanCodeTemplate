@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "https://github.com/joc-luis",
+  "author": "joc-luis",
+  "classifications": [ "clean code", "api", "rest", "endpoint" ],
+  "tags": {
+    "language": "C#"
+  },
+  "identity": "endpoint.clean.code.template",
+  "name": "Endpoint Clean Code",
+  "shortName": "endpoint.clean.code",
+  "sourceName": "CleanCodeTemplate",
+  "sources": [
+    {
+      "modifiers": [
+        { "exclude": [ ".vs/**", ".template_config/**", ".env", "*.db" ] }
+      ]
+    }
+  ]
+}
