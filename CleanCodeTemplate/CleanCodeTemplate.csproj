@@ -9,6 +9,14 @@
         <Title>CleanCodeTemplate</Title>
         <Authors>joc-luis</Authors>
         <Description>Almost clean code</Description>
+        <Copyright>joc-luis</Copyright>
+        <PackageProjectUrl>https://github.com/joc-luis/CleanCodeTemplate</PackageProjectUrl>
+        <PackageLicenseUrl>https://opensource.org/license/mit/</PackageLicenseUrl>
+        <Version>1.0.0-beta.1</Version>
+        <RepositoryUrl>https://github.com/joc-luis/CleanCodeTemplate</RepositoryUrl>
+        <RepositoryType>GIT</RepositoryType>
+        <PackageTags>cleancode,endpoint api,rest,clean,code</PackageTags>
+        <PackageReleaseNotes>It is a beta version of an API template using almost clean code.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -58,6 +66,9 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
       <None Update="www\img\account.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="icon\icon.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
