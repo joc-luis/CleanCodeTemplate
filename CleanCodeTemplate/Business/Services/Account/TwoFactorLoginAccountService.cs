@@ -66,7 +66,7 @@ public class TwoFactorLoginAccountService : ITwoFactorLoginAccountInput
                 string response = await _webTokenTool.GenerateTokenAsync(new SessionAccountDto()
                 {
                     Id = user.Id,
-                    Permissions = permissions
+                    RoleId = role.Id
                 }, 1, ct);
 
                 

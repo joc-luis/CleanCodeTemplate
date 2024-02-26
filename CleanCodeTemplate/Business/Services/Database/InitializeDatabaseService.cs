@@ -53,7 +53,7 @@ public class InitializeDatabaseService : IInitializeDatabaseInput
         Option settings = new Option("Settings", "settings", "cog");
         await _optionRepository.CreateAsync(settings, default);
 
-        Option settingsProfile = new Option("Profile", "profile", "account", settings.Id);
+        Option settingsProfile = new Option("Account", "account", "account", settings.Id);
         await _optionRepository.CreateAsync(settingsProfile, default);
 
         Option settingsRoles = new Option("Roles", "roles", "lock", settings.Id);

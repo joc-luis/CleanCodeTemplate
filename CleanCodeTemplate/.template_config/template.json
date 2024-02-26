@@ -1,0 +1,40 @@
+﻿{
+  "$schema": "https://github.com/joc-luis",
+  "author": "joc-luis",
+  "classifications": [ "clean code", "api", "rest", "endpoint" ],
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "identity": "clean.code.template",
+  "name": "Clean Code Template",
+  "shortName": "clean.code.template",
+  "sourceName": "CleanCodeTemplate",
+  "preferNameDirectory": true,
+  "sources": [
+    {
+      "modifiers": [
+        { "exclude": [ ".vs/**", ".template_config/**", ".env", "*.db" ] }
+      ]
+    }
+  ],
+  "symbols": {
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    }
+  },
+  "postActions": [
+    {
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        { "text": "Run 'dotnet restore'" }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
+}

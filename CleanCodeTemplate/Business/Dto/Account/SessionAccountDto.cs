@@ -4,6 +4,6 @@ namespace CleanCodeTemplate.Business.Dto.Account;
 
 public class SessionAccountDto
 {
-    public Guid Id { get; set; }
-    public IEnumerable<PermissionDto> Permissions { get; set; } = new List<PermissionDto>();
+    public Guid Id { get; init; }
+    public Guid RoleId { get; init; }
 }

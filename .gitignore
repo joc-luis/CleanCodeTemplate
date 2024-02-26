@@ -8,3 +8,4 @@ CleanCodeTemplate/pack
 CleanCodeTemplate/.env
 *.db
 .vs
+*.log

@@ -49,8 +49,10 @@ public class LoginAccountService : ILoginAccountInput
         _validazione.Field("Password", request.Password).Required();
         _validazione.PassOrException();
 
-        User? user = await _userRepository.FirstOrDefaultAsync<User>(new Query().Where("Nick", request.Nick), ct);
-        if (user == null || !await _cryptographyTool.VerifyHashAsync(user.Password, request.Password))
+        User? user = await _userRepository
+            .FirstOrDefaultAsync<User>(new Query().Where("Nick", request.Nick), ct);
+        if (user == null || !await _cryptographyTool
+                .VerifyHashAsync(user.Password, request.Password))
         {
             throw new NotFoundException("The credentials do not exist in our records.");
         }
@@ -89,7 +91,7 @@ public class LoginAccountService : ILoginAccountInput
             string token = await _webTokenTool.GenerateTokenAsync(new SessionAccountDto()
             {
                 Id = user.Id,
-                Permissions = permissions
+                RoleId = role.Id
             }, 1, ct);
 
             response = new LoginAccountResponse()

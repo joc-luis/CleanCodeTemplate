@@ -31,7 +31,7 @@ public class WebTokenTool : IWebTokenTool
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new(ClaimTypes.Sid, sessionAccountDto.Id.ToString()),
-                    new(ClaimTypes.Role, JsonConvert.SerializeObject(sessionAccountDto.Permissions))
+                    new(ClaimTypes.Role, sessionAccountDto.RoleId.ToString())
                 }),
                 Expires = DateTime.Now.AddDays(days),
                 SigningCredentials = new SigningCredentials(
@@ -72,9 +72,7 @@ public class WebTokenTool : IWebTokenTool
             SessionAccount = new SessionAccountDto()
             {
                 Id = Guid.Parse(principal.Claims.First(c => c.Type == ClaimTypes.Sid).Value),
-                Permissions =
-                    JsonConvert.DeserializeObject<IEnumerable<PermissionDto>>(principal.Claims
-                        .First(c => c.Type == ClaimTypes.Role).Value) ?? throw new UnauthorizedException()
+                RoleId = Guid.Parse(principal.Claims.First(c => c.Type == ClaimTypes.Role).Value)
             };
         }, ct);
     }

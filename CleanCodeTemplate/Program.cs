@@ -60,6 +60,7 @@ builder.Services.AddEasyCaching(options =>
     options.UseInMemory("memory");
     options.UseSQLite(db => { db.DBConfig = new SQLiteDBOptions { FileName = "cache.db" }; }, name: "lite");
     options.UseSQLite(db => { db.DBConfig = new SQLiteDBOptions { FileName = "blocked.db" }; }, name: "blocked");
+    options.UseSQLite(db => { db.DBConfig = new SQLiteDBOptions { FileName = "roles.db" }; }, name: "roles");
 });
 
 builder.Services.AddCors(options =>

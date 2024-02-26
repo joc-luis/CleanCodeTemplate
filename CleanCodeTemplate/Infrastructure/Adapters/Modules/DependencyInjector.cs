@@ -17,6 +17,7 @@ public static class DependencyInjector
         collection.AddSingleton<ILiteCachingTool, LiteCachingTool>();
         collection.AddSingleton<IBlockedCachingTool, BlockedCachingTool>();
         collection.AddSingleton<IMemoryCachingTool, MemoryCachingTool>();
+        collection.AddSingleton<IRoleCachingTool, RoleCachingTool>();
         return collection;
     }
 }
