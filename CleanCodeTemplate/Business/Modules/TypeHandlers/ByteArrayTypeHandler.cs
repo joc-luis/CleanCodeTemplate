@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Dapper;
 
@@ -13,8 +14,13 @@ public class ByteArrayTypeHandler : SqlMapper.TypeHandler<IEnumerable<byte>>
         parameter.Value = Encoding.ASCII.GetString(value.ToArray());
     }
 
-    public override IEnumerable<byte> Parse(object value)
+    public override IEnumerable<byte> Parse(object? value)
     {
-        return Encoding.ASCII.GetBytes(value.ToString());
+        if (value == null)
+        {
+            return null;
+        }
+
+        return (byte[])value;
     }
 }

@@ -13,7 +13,7 @@ public class UserMigration : Migration
             .WithColumn("Nick").AsString().Unique()
             .WithColumn("Email").AsString().Unique()
             .WithColumn("Password").AsString().Unique()
-            .WithColumn("Image").AsBinary()
+            .WithColumn("Image").AsBinary(Int32.MaxValue)
             .WithColumn("TwoFactors").AsBoolean();
     }
 

@@ -2,6 +2,7 @@
 using CleanCodeTemplate.Business.Domain.Repositories;
 using CleanCodeTemplate.Business.Dto.Roles.Requests;
 using CleanCodeTemplate.Business.Exceptions.Http;
+using CleanCodeTemplate.Business.Modules.Tools;
 using CleanCodeTemplate.Business.Ports.Roles.Input;
 using CleanCodeTemplate.Business.Ports.Roles.Output;
 using SqlKata;
@@ -13,16 +14,18 @@ public class UpdateRoleService : IUpdateRoleInput
 {
     private readonly IRoleRepository _roleRepository;
     private readonly IValidazione _validazione;
+    private readonly IRoleCachingTool _roleCachingTool;
     private readonly IPermissionRepository _permissionRepository;
     private readonly IUpdateRoleOutput _output;
 
     public UpdateRoleService(IRoleRepository roleRepository, IValidazione validazione,
-        IPermissionRepository permissionRepository, IUpdateRoleOutput output)
+        IPermissionRepository permissionRepository, IUpdateRoleOutput output, IRoleCachingTool roleCachingTool)
     {
         _roleRepository = roleRepository;
         _validazione = validazione;
         _permissionRepository = permissionRepository;
         _output = output;
+        _roleCachingTool = roleCachingTool;
     }
 
     public async Task HandleAsync(UpdateRoleRequest request, CancellationToken ct)
@@ -43,6 +46,8 @@ public class UpdateRoleService : IUpdateRoleInput
         role.Name = request.Name;
         role.Permissions = request.Permissions;
 
+        await _roleCachingTool.RemoveAsync(role.Id.ToString(), ct);
+        
         await _roleRepository.UpdateAsync(role, ct);
 
         await _output.HandleAsync("The role was successfully updated", ct);

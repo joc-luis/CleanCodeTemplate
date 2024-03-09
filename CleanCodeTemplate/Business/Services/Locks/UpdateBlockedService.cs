@@ -35,7 +35,7 @@ public class UpdateBlockedService : IUpdateBlockedInput
 
     public async Task HandleAsync(UpdateBlockedRequest request, CancellationToken ct)
     {
-        _validazione.Field("End", request.End).Min(DateTime.Now.AddDays(1).Date);
+        _validazione.Field("End", Convert.ToDateTime(request.End)).Min(DateTime.Now.AddDays(1).Date);
         _validazione.Field("Description", request.Description).Regex(PatternConstants.Text);
         _validazione.PassOrException();
 
@@ -51,22 +51,24 @@ public class UpdateBlockedService : IUpdateBlockedInput
                     throw new NotFoundException();
 
         blocked.Description = request.Description;
-        blocked.End = request.End.Date;
+        blocked.End = Convert.ToDateTime(request.End);
 
         if (await _blockedCachingTool.ExistsAsync(blocked.UserBlockedId.ToString(), ct))
         {
             await _blockedCachingTool.RemoveAsync(blocked.UserBlockedId.ToString(), ct);
         }
 
-        var duration = (request.End.Date - DateTime.Now.Date).TotalMinutes;
+        var duration = (Convert.ToDateTime(request.End).Date - DateTime.Now.Date).TotalMinutes;
 
         await _blockedCachingTool.SetAsync(blocked.UserBlockedId.ToString(), "Blocked", TimeSpan.FromMinutes(duration),
             ct);
 
-        await _emailTool.SendAsync(user.Email, "Account lockout Update", $"Your account block was updated, from {blocked.Start.Date} until {request.End.Date}", ct);
+        await _blockedRepository.UpdateAsync(blocked, ct);
+
+        await _emailTool.SendAsync(user.Email, "Account lockout Update",
+            $"Your account block was updated, from {blocked.Start.Date} until {request.End}", ct);
 
 
         await _output.HandleAsync("Account lock updated successfully.", ct);
-
     }
 }

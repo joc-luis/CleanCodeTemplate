@@ -40,30 +40,30 @@ public class CreateBlockedService : ICreateBlockedInput
         var query = new Query()
             .Join("Roles", "Users.RoleId", "Roles.Id")
             .Where("Roles.Name", "<>", "Root")
-            .Where("Users.Id", request.BlockedUserId);
+            .Where("Users.Id", request.UserBlockedId);
 
         User user = await _userRepository.FirstOrDefaultAsync<User>(query, ct) ?? throw new ForbiddenException();
 
-        _validazione.Field("End", request.End).Min(DateTime.Now.AddDays(1).Date);
+        _validazione.Field("End", Convert.ToDateTime(request.End)).Min(DateTime.Now.AddDays(1).Date);
         _validazione.Field("Description", request.Description).Nullable().Regex(PatternConstants.Text);
         _validazione.PassOrException();
 
-        if (_webTokenTool.SessionAccount.Id == request.BlockedUserId)
+        if (_webTokenTool.SessionAccount.Id == request.UserBlockedId)
         {
             throw new ForbiddenException();
         }
 
-        Blocked blocked = new Blocked(_webTokenTool.SessionAccount.Id, request.BlockedUserId, request.Description,
-            request.End.Date);
+        Blocked blocked = new Blocked(_webTokenTool.SessionAccount.Id, request.UserBlockedId, request.Description,
+            Convert.ToDateTime(request.End).Date);
 
         await _blockedRepository.CreateAsync(blocked, ct);
         
-        var duration = (request.End - DateTime.Now.Date).TotalMinutes;
+        var duration = (Convert.ToDateTime(request.End).Date - DateTime.Now.Date).TotalMinutes;
 
-        await _blockedCachingTool.SetAsync(request.BlockedUserId.ToString(), "blocked", TimeSpan.FromMinutes(duration), ct);
+        await _blockedCachingTool.SetAsync(request.UserBlockedId.ToString(), "blocked", TimeSpan.FromMinutes(duration), ct);
 
         await _emailTool.SendAsync(user.Email, "Your user has been blocked",
-            $"A block was established on your account from {DateTime.Now.Date} to {request.End.Date}", ct);
+            $"A block was established on your account from {DateTime.Now.Date} to {request.End}", ct);
 
         await _output.HandleAsync("Account blocked successfully", ct);
     }

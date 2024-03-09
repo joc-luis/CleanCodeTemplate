@@ -4,6 +4,6 @@ public struct CreateAccountRequest
 {
     public string Nick { get; set; }
     public string Email { get; set; }
-    public byte[]? Image { get; set; }
+    public IEnumerable<byte>? Image { get; set; }
     public bool TwoFactors { get; set; }
 }

@@ -56,7 +56,7 @@ public class CreateAccountService : ICreateAccountInput
         _validazione.Field("Email", request.Email).Email();
         _validazione.PassOrException();
 
-        byte[] image = request.Image ??
+        IEnumerable<byte> image = request.Image ??
                        await File.ReadAllBytesAsync(Path.Combine(DirectoryConstants.Img, "account.png"), ct);
         string password = await _cryptographyTool.RandomStringAsync();
         
